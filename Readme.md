@@ -5,6 +5,8 @@ HTTP Status Code, Duration (msec), SharePointHealthScore will be displayed.
 And if there is any alert, you will see the Correlation ID as well.
 With additional option (-AlertMe $true), you will be able to receive e-mail.
 
+![PingSPOImage]("Readme/PingSPOImage.png")
+
 ## Prerequisite
 
 You need to download SharePoint Online Client Components SDK to run this script. 
