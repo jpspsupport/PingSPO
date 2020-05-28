@@ -78,12 +78,19 @@ WriteOut ("Requesting URL (" + $ResultSummary.URL + ")")
 for ($i = 0; $i -lt $Number; $i++)
 {
   $d = Get-Date
-  $data = Invoke-WebRequest -Uri $SiteUrl -WebSession $mySession -MaximumRedirection 0
+  try {
+    $data = Invoke-WebRequest -Uri $SiteUrl -WebSession $mySession -MaximumRedirection 0
+    $statuscode = $data.StatusCode
+  }
+  catch {
+    $data = ([system.net.webexception]$_.Exception.GetBaseException()).Response;
+    $statuscode = $data.StatusCode.value__
+  }
 
   $ResultRow = New-Object psobject
   $ResultRow | Add-Member -MemberType NoteProperty -Name EventTime -Value (Get-Date)
   $ResultRow | Add-Member -MemberType NoteProperty -Name Duration -Value ([int]((Get-Date) - $d).TotalMilliseconds)
-  $ResultRow | Add-Member -MemberType NoteProperty -Name StatusCode -Value $data.StatusCode
+  $ResultRow | Add-Member -MemberType NoteProperty -Name StatusCode -Value $statuscode
   $ResultRow | Add-Member -MemberType NoteProperty -Name HealthScore -Value  $data.Headers["x-sharepointhealthscore"]
   $ResultRow | Add-Member -MemberType NoteProperty -Name CorrelationId -Value $data.Headers["sprequestguid"]
 
@@ -123,7 +130,7 @@ $ResultSummary | Add-Member -MemberType NoteProperty -Name ResultRows -Value $Re
 
 WriteOut ""
 WriteOut "Alert Statistics"
-WriteOut (Write-Output("    StatusCoce = {0} ({1}%), HealthScore = {2} ({3}%), Duration = {4} ({5}%)" -f $ResultSummary.StatusCodeAlertCount, ($ResultSummary.StatusCodeAlertCount / $ResultSummary.TotalCount * 100), $ResultSummary.HealthScoreAlertCount, ($ResultSummary.HealthScoreAlertCount / $ResultSummary.TotalCount * 100), $ResultSummary.DurationAlertCount, ($ResultSummary.DurationAlertCount / $ResultSummary.TotalCount * 100)))
+WriteOut (Write-Output("    StatusCode = {0} ({1}%), HealthScore = {2} ({3}%), Duration = {4} ({5}%)" -f $ResultSummary.StatusCodeAlertCount, ($ResultSummary.StatusCodeAlertCount / $ResultSummary.TotalCount * 100), $ResultSummary.HealthScoreAlertCount, ($ResultSummary.HealthScoreAlertCount / $ResultSummary.TotalCount * 100), $ResultSummary.DurationAlertCount, ($ResultSummary.DurationAlertCount / $ResultSummary.TotalCount * 100)))
 WriteOut "HealthScore Statistics"
 WriteOut (Write-Output("    Minimum = {0}, Maximum = {1}, Average = {2}" -f $ResultSummary.HealthScoreMin, $ResultSummary.HealthScoreMax, $ResultSummary.HealthScoreAvg))
 WriteOut "Duration Statistics"
