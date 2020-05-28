@@ -125,9 +125,9 @@ WriteOut ""
 WriteOut "Alert Statistics"
 WriteOut (Write-Output("    StatusCoce = {0} ({1}%), HealthScore = {2} ({3}%), Duration = {4} ({5}%)" -f $ResultSummary.StatusCodeAlertCount, ($ResultSummary.StatusCodeAlertCount / $ResultSummary.TotalCount * 100), $ResultSummary.HealthScoreAlertCount, ($ResultSummary.HealthScoreAlertCount / $ResultSummary.TotalCount * 100), $ResultSummary.DurationAlertCount, ($ResultSummary.DurationAlertCount / $ResultSummary.TotalCount * 100)))
 WriteOut "HealthScore Statistics"
-WriteOut (Write-Output("    Minimam = {0}, Maximum = {1}, Average = {2}" -f $ResultSummary.HealthScoreMin, $ResultSummary.HealthScoreMax, $ResultSummary.HealthScoreAvg))
+WriteOut (Write-Output("    Minimum = {0}, Maximum = {1}, Average = {2}" -f $ResultSummary.HealthScoreMin, $ResultSummary.HealthScoreMax, $ResultSummary.HealthScoreAvg))
 WriteOut "Duration Statistics"
-WriteOut (Write-Output("    Minimam = {0}ms, Maximum = {1}ms, Average = {2}ms" -f $ResultSummary.DurationMin, $ResultSummary.DurationMax, $ResultSummary.DurationAvg))
+WriteOut (Write-Output("    Minimum = {0}ms, Maximum = {1}ms, Average = {2}ms" -f $ResultSummary.DurationMin, $ResultSummary.DurationMax, $ResultSummary.DurationAvg))
 WriteOut ""
 
 if ($ReturnPSObject)
