@@ -77,6 +77,11 @@ WriteOut ("Requesting URL (" + $ResultSummary.URL + ")")
 
 for ($i = 0; $i -lt $Number; $i++)
 {
+  if ($i -ne 0)
+  {
+    Start-Sleep -Second $IntervalSecond
+  }
+
   $d = Get-Date
   try {
     $data = Invoke-WebRequest -Uri $SiteUrl -WebSession $mySession -MaximumRedirection 0
@@ -108,8 +113,6 @@ for ($i = 0; $i -lt $Number; $i++)
   }
   WriteOut $out
   [void]$ResultRows.Add($ResultRow)
-
-  Start-Sleep -Second $IntervalSecond
 }
 
 $ResultSummary | Add-Member -MemberType NoteProperty -Name EndTime -Value (Get-Date)
